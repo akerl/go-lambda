@@ -1,0 +1,3 @@
+PACKAGE = go-lambda
+NAMESPACE = github.com/akerl
+OSLIST = linux
