@@ -51,7 +51,7 @@ func (l *Lambda) BuildHandler() func(req Request) (Response, error) {
 			expectedToken := params.Lookup("slack_token")
 			if expectedToken == "" {
 				return Fail("no slack_token provided")
-			} else if expectedToken != bodyParams["token"] {
+			} else if expectedToken != "skip" && expectedToken != bodyParams["token"] {
 				return Fail("invalid slack token")
 			}
 			return l.run("slack", req)
