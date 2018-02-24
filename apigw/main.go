@@ -2,6 +2,7 @@ package apigw
 
 import (
 	"fmt"
+	"net/url"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -19,6 +20,19 @@ type Request events.APIGatewayProxyRequest
 // Response aliases the API GW Response type
 type Response events.APIGatewayProxyResponse
 
+// BodyAsParams attempts to parse the request body as URL parameters
+func (r *Request) BodyAsParams() (map[string]string, error) {
+	result := make(map[string]string)
+	vals, err := url.ParseQuery(r.Body)
+	if err != nil {
+		return result, err
+	}
+	for key := range vals {
+		result[key] = vals.Get(key)
+	}
+	return result, nil
+}
+
 // Handler describes the signature for an API GW request handler
 type Handler func(Request, Params) (string, error)
 
@@ -31,15 +45,13 @@ type Lambda struct {
 // BuildHandler returns a function that routes to the appropriate handler
 func (l *Lambda) BuildHandler() func(req Request) (Response, error) {
 	return func(req Request) (Response, error) {
-		if req.QueryStringParameters["trigger_id"] != "" {
-			actualToken := req.QueryStringParameters["token"]
-			params := Params{
-				Request: &req,
-			}
+		bodyParams, _ := req.BodyAsParams()
+		if bodyParams["trigger_id"] != "" {
+			params := Params{Request: &req}
 			expectedToken := params.Lookup("slack_token")
 			if expectedToken == "" {
 				return Fail("no slack_token provided")
-			} else if expectedToken != actualToken {
+			} else if expectedToken != bodyParams["token"] {
 				return Fail("invalid slack token")
 			}
 			return l.run("slack", req)
