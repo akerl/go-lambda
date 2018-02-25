@@ -52,13 +52,25 @@
   version = "v1.32.0"
 
 [[projects]]
+  name = "github.com/gorilla/websocket"
+  packages = ["."]
+  revision = "ea4d1f681babbce9545c9c5f3d5194a789c89f5b"
+  version = "v1.2.0"
+
+[[projects]]
   name = "github.com/jmespath/go-jmespath"
   packages = ["."]
   revision = "0b12d6b5"
 
+[[projects]]
+  name = "github.com/nlopes/slack"
+  packages = ["."]
+  revision = "8ab4d0b364ef1e9af5d102531da20d5ec902b6c4"
+  version = "v0.2.0"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fe4e07651e090c74b40fa7c9697f60017e6c5d14f143e80e5359e3c83b1bdb47"
+  inputs-digest = "153e78bc1864989b83b5907d8dcf724818118485b29d0464704d2c69602965cb"
   solver-name = "gps-cdcl"
   solver-version = 1
