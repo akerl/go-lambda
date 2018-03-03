@@ -15,7 +15,6 @@ type Receiver interface {
 // Dispatcher defines a dynamic handler
 type Dispatcher struct {
 	Receivers []Receiver
-	Defaults  map[string]string
 }
 
 // Handle handles an incoming request
