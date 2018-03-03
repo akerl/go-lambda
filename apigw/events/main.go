@@ -1,4 +1,4 @@
-package apigw
+package events
 
 import (
 	"net/url"
@@ -6,6 +6,9 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 )
+
+// Handler defines an API GW request handler
+type Handler func(Request) (Response, error)
 
 // Response aliases the API GW Response type
 type Response events.APIGatewayProxyResponse
@@ -48,7 +51,7 @@ func Respond(code int, msg string) (Response, error) {
 // and the Lambda environment variables
 type Params struct {
 	Request  *Request
-	Defaults DefaultSet
+	Defaults map[string]string
 }
 
 // Lookup returns a value for the parameter, if it's set in an available field
