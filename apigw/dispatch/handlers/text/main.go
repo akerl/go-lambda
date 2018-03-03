@@ -1,4 +1,4 @@
-package handlers
+package text
 
 import (
 	"github.com/akerl/go-lambda/apigw/events"
