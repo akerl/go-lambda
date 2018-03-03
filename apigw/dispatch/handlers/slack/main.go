@@ -8,7 +8,7 @@ import (
 	"github.com/nlopes/slack"
 )
 
-// SlackHandler checks for Slack requests and returns Slack messages
+// Handler checks for Slack requests and returns Slack messages
 type Handler struct {
 	Func func(events.Request) (*slack.Msg, error)
 }

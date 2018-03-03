@@ -4,7 +4,7 @@ import (
 	"github.com/akerl/go-lambda/apigw/events"
 )
 
-// TextHandler does basic text responses
+// Handler does basic text responses
 type Handler struct {
 	Func func(events.Request) (string, error)
 }
