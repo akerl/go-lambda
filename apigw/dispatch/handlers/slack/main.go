@@ -22,8 +22,8 @@ func (h *Handler) Check(req events.Request) bool {
 	return true
 }
 
-// Run checks the auth token and processes the message
-func (h *Handler) Run(req events.Request) (events.Response, error) {
+// Handle checks the auth token and processes the message
+func (h *Handler) Handle(req events.Request) (events.Response, error) {
 	bodyParams, _ := req.BodyAsParams()
 	actualToken := bodyParams["token"]
 

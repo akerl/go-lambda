@@ -14,8 +14,8 @@ func (h *Handler) Check(req events.Request) bool {
 	return true
 }
 
-// Run calls the func with the provided request
-func (h *Handler) Run(req events.Request) (events.Response, error) {
+// Handle calls the func with the provided request
+func (h *Handler) Handle(req events.Request) (events.Response, error) {
 	resp, err := h.Func(req)
 	if err != nil {
 		return events.Fail(err.Error())
