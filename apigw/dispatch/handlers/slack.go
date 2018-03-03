@@ -9,12 +9,12 @@ import (
 )
 
 // SlackHandler checks for Slack requests and returns Slack messages
-type SlackHandler struct {
+type Handler struct {
 	Func func(events.Request) (*slack.Msg, error)
 }
 
 // Check validates the Slack body parameter exists
-func (h *SlackHandler) Check(req events.Request) bool {
+func (h *Handler) Check(req events.Request) bool {
 	bodyParams, _ := req.BodyAsParams()
 	if bodyParams["trigger_id"] == "" {
 		return false
@@ -23,7 +23,7 @@ func (h *SlackHandler) Check(req events.Request) bool {
 }
 
 // Run checks the auth token and processes the message
-func (h *SlackHandler) Run(req events.Request) (events.Response, error) {
+func (h *Handler) Run(req events.Request) (events.Response, error) {
 	bodyParams, _ := req.BodyAsParams()
 	actualToken := bodyParams["token"]
 
