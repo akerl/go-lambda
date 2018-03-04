@@ -36,9 +36,9 @@ type Router struct {
 // Handle handles an incoming request
 func (r *Router) Handle(req events.Request) (events.Response, error) {
 	for _, route := range r.Routes {
-		match = route.Path.FindStringSubmatch(req.Path)
+		match := route.Path.FindStringSubmatch(req.Path)
 		if len(match) != 0 {
-			for i, name := range match.SubexpNames() {
+			for i, name := range route.Path.SubexpNames() {
 				if name != "" {
 					req.PathParameters[name] = match[i]
 				}
