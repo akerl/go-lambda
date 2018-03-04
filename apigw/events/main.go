@@ -1,6 +1,8 @@
 package events
 
 import (
+	"bytes"
+	"net/http"
 	"net/url"
 	"os"
 
@@ -27,6 +29,20 @@ func (r *Request) BodyAsParams() (map[string]string, error) {
 		result[key] = vals.Get(key)
 	}
 	return result, nil
+}
+
+// ToHTTP returns the API Gateway request as an HTTP Request object
+func (r *Request) ToHTTP() (*http.Request, error) {
+	url := "https://" + r.Headers["Host"] + r.Path
+	body := bytes.NewBufferString(r.Body)
+	hr, err := http.NewRequest(r.HTTPMethod, url, body)
+	if err != nil {
+		return hr, err
+	}
+	for k, v := range r.Headers {
+		hr.Header.Add(k, v)
+	}
+	return hr, nil
 }
 
 // Fail returns a message with an HTTP 500
