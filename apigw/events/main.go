@@ -55,6 +55,16 @@ func Succeed(msg string) (Response, error) {
 	return Respond(200, msg)
 }
 
+// Redirect returns a redirect to a new URL
+func Redirect(url string, code int) (Response, error) {
+	return Response{
+		StatusCode: code,
+		Headers: map[string]string{
+			"Location": url,
+		},
+	}, nil
+}
+
 // Respond builds a response with a given HTTP code and text message
 func Respond(code int, msg string) (Response, error) {
 	return Response{
