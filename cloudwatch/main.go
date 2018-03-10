@@ -2,7 +2,6 @@ package cloudwatch
 
 import (
 	"encoding/json"
-	"time"
 )
 
 // SNSEvent is a set of EventRecords
