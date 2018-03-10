@@ -15,10 +15,6 @@ package(
   type: 'file',
   artifacts: [
     {
-      source: "bin/#{@forge.name}_darwin",
-      name: "#{@forge.name}_darwin"
-    },
-    {
       source: "bin/#{@forge.name}_linux",
       name: "#{@forge.name}_linux"
     }
