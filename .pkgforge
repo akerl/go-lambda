@@ -1,4 +1,4 @@
-name 'REPLACE_ME_NAME'
+name 'go-lambda'
 org 'akerl'
 
 source(
