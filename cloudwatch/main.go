@@ -26,7 +26,7 @@ type SNSEntity struct {
 	TopicArn          string                 `json:"TopicArn"`
 	MessageAttributes map[string]interface{} `json:"MessageAttributes"`
 	SignatureVersion  string                 `json:"SignatureVersion"`
-	Timestamp         time.Time              `json:"Timestamp"`
+	Timestamp         string                 `json:"Timestamp"`
 	SigningCertURL    string                 `json:"SigningCertUrl"`
 	Message           string                 `json:"Message"`
 	UnsubscribeURL    string                 `json:"UnsubscribeUrl"`
@@ -42,7 +42,7 @@ type AlarmMessage struct {
 	OldStateValue    string       `json:"OldStateValue"`
 	NewStateValue    string       `json:"NewStateValue"`
 	NewStateReason   string       `json:"NewStateReason"`
-	StateChangeTime  time.Time    `json:"StateChangeTime"`
+	StateChangeTime  string       `json:"StateChangeTime"`
 	Region           string       `json:"Region"`
 	Trigger          AlarmTrigger `json:"Trigger"`
 }
