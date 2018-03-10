@@ -3,18 +3,35 @@ package cloudwatch
 import (
 	"encoding/json"
 	"time"
-
-	"github.com/aws/aws-lambda-go/events"
 )
 
-// SNSEvent proxies to events object
-type SNSEvent events.SNSEvent
+// SNSEvent is a set of EventRecords
+type SNSEvent struct {
+	Records []SNSEventRecord `json:"Records"`
+}
 
-// SNSEventRecord proxies to events object
-type SNSEventRecord events.SNSEventRecord
+// SNSEventRecord is an SNS event
+type SNSEventRecord struct {
+	EventVersion         string    `json:"EventVersion"`
+	EventSubscriptionArn string    `json:"EventSubscriptionArn"`
+	EventSource          string    `json:"EventSource"`
+	SNS                  SNSEntity `json:"Sns"`
+}
 
-// SNSEntity proxies to events object
-type SNSEntity events.SNSEntity
+// SNSEntity is the message details for the SNS event
+type SNSEntity struct {
+	Signature         string                 `json:"Signature"`
+	MessageID         string                 `json:"MessageId"`
+	Type              string                 `json:"Type"`
+	TopicArn          string                 `json:"TopicArn"`
+	MessageAttributes map[string]interface{} `json:"MessageAttributes"`
+	SignatureVersion  string                 `json:"SignatureVersion"`
+	Timestamp         time.Time              `json:"Timestamp"`
+	SigningCertURL    string                 `json:"SigningCertUrl"`
+	Message           string                 `json:"Message"`
+	UnsubscribeURL    string                 `json:"UnsubscribeUrl"`
+	Subject           string                 `json:"Subject"`
+}
 
 // AlarmMessage describes a CloudWatch Alarm SNS event
 type AlarmMessage struct {
