@@ -48,15 +48,21 @@ type AlarmMessage struct {
 
 // AlarmTrigger describes the SNS Alarm trigger
 type AlarmTrigger struct {
-	MetricName         string            `json:"MetricName"`
-	Namespace          string            `json:"Namespace"`
-	Statistic          string            `json:"Statistic"`
-	Unit               string            `json:"Unit"`
-	Dimensions         map[string]string `json:"Dimensions"`
-	Period             int               `json:"Period"`
-	EvaluationPeriods  int               `json:"EvaluationPeriods"`
-	ComparisonOperator string            `json:"ComparisonOperator"`
-	Threshold          float32           `json:"Threshold"`
+	MetricName         string           `json:"MetricName"`
+	Namespace          string           `json:"Namespace"`
+	Statistic          string           `json:"Statistic"`
+	Unit               string           `json:"Unit"`
+	Dimensions         []AlarmDimension `json:"Dimensions"`
+	Period             int              `json:"Period"`
+	EvaluationPeriods  int              `json:"EvaluationPeriods"`
+	ComparisonOperator string           `json:"ComparisonOperator"`
+	Threshold          float32          `json:"Threshold"`
+}
+
+// AlarmDimension describes a config setting for the trigger
+type AlarmDimension struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 // DecodedMessage decodes the message body of an SNS record
