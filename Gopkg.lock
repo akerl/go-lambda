@@ -43,8 +43,8 @@
     "service/s3",
     "service/sts"
   ]
-  revision = "62465d4996f172ae426fdcec7a6a053062cf8995"
-  version = "v1.13.15"
+  revision = "f0872da8a448f8cb10f4f0c95c2100e4f7356448"
+  version = "v1.13.16"
 
 [[projects]]
   name = "github.com/go-ini/ini"
@@ -69,9 +69,15 @@
   revision = "8ab4d0b364ef1e9af5d102531da20d5ec902b6c4"
   version = "v0.2.0"
 
+[[projects]]
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  revision = "7f97868eec74b32b0982dd158a51a446d1da7eb5"
+  version = "v2.1.1"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "153e78bc1864989b83b5907d8dcf724818118485b29d0464704d2c69602965cb"
+  inputs-digest = "912b72f863c30d3a670c4ff58a37a6f95c09b4cfa3d0fc0a2e693155d882b06d"
   solver-name = "gps-cdcl"
   solver-version = 1
