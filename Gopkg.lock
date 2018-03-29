@@ -43,8 +43,8 @@
     "service/s3",
     "service/sts"
   ]
-  revision = "851c8ce700ee981b0ce28634721c2a925c6f3d0b"
-  version = "v1.13.22"
+  revision = "bb206ce0d6a50da7807694a823aed5c601c57ce0"
+  version = "v1.13.23"
 
 [[projects]]
   name = "github.com/go-ini/ini"
@@ -72,8 +72,8 @@
 [[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
-  revision = "86f5ed62f8a0ee96bd888d2efdfd6d4fb100a4eb"
-  version = "v2.2.0"
+  revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
+  version = "v2.2.1"
 
 [solve-meta]
   analyzer-name = "dep"
