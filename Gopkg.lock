@@ -43,14 +43,14 @@
     "service/s3",
     "service/sts"
   ]
-  revision = "5a33d0a4f5d9c27e6cd10b4c156e85b46c4501d7"
-  version = "v1.13.26"
+  revision = "f6efafab9ddced9880456bc53096fa79f4596f5e"
+  version = "v1.13.27"
 
 [[projects]]
   name = "github.com/go-ini/ini"
   packages = ["."]
-  revision = "6333e38ac20b8949a8dd68baa3650f4dee8f39f0"
-  version = "v1.33.0"
+  revision = "5e9692864e22d02ac79e2fa499cffb00520b4fea"
+  version = "v1.34.0"
 
 [[projects]]
   name = "github.com/gorilla/websocket"
