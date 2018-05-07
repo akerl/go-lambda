@@ -2,6 +2,7 @@ package slack
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/akerl/go-lambda/apigw/events"
 
@@ -35,7 +36,7 @@ func (h *Handler) Handle(req events.Request) (events.Response, error) {
 }
 
 // Auth checks if the auth token is valid
-func (h *Handler) Auth(req events.Request) (bool, string) {
+func (h *Handler) Auth(req events.Request) (events.Response, error) {
 	bodyParams, _ := req.BodyAsParams()
 	actualToken := bodyParams["token"]
 
@@ -43,15 +44,22 @@ func (h *Handler) Auth(req events.Request) (bool, string) {
 	expectedToken := params.Lookup("slack_token")
 
 	if expectedToken == "" {
-		return false, "no slack_token provided"
+		return events.Response{
+			StatusCode: 403,
+			Body:       "no slack_token provided",
+		}, fmt.Errorf("no slack_token provided")
 	} else if expectedToken == "skip" {
-		return true, ""
+		return events.Response{}, nil
 	}
 
 	for _, i := range h.SlackTokens {
 		if i == actualToken {
-			return true, ""
+			return events.Response{}, nil
 		}
 	}
-	return false, "invalid slack token"
+
+	return events.Response{
+		StatusCode: 403,
+		Body:       "invalid slack_token",
+	}, fmt.Errorf("invalid slack_token")
 }
