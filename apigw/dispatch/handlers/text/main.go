@@ -7,7 +7,7 @@ import (
 // Handler does basic text responses
 type Handler struct {
 	Func     func(events.Request) (string, error)
-	AuthFunc func(events.Request) (bool, string)
+	AuthFunc func(events.Request) (events.Response, error)
 }
 
 // Check is always true for text handlers
@@ -25,9 +25,9 @@ func (h *Handler) Handle(req events.Request) (events.Response, error) {
 }
 
 // Auth runs an auth check if provided
-func (h *Handler) Auth(req events.Request) (bool, string) {
+func (h *Handler) Auth(req events.Request) (events.Response, error) {
 	if h.AuthFunc == nil {
-		return true, ""
+		return events.Succeed("")
 	}
 	return h.AuthFunc(req)
 }

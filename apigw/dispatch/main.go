@@ -10,7 +10,7 @@ import (
 type Receiver interface {
 	Check(events.Request) bool
 	Handle(events.Request) (events.Response, error)
-	Auth(events.Request) (bool, string)
+	Auth(events.Request) (events.Response, error)
 }
 
 // Dispatcher defines a dynamic handler
@@ -22,8 +22,8 @@ type Dispatcher struct {
 func (d *Dispatcher) Handle(req events.Request) (events.Response, error) {
 	for _, h := range d.Receivers {
 		if h.Check(req) {
-			if ok, msg := h.Auth(req); !ok {
-				return events.Respond(403, msg)
+			if resp, err := h.Auth(req); err != nil {
+				return resp, err
 			}
 			return h.Handle(req)
 		}
@@ -38,7 +38,7 @@ func (d *Dispatcher) Start() {
 
 type checkFunc func(events.Request) bool
 type handleFunc func(events.Request) (events.Response, error)
-type authFunc func(events.Request) (bool, string)
+type authFunc func(events.Request) (events.Response, error)
 
 type shim struct {
 	CheckFunc  checkFunc
@@ -57,7 +57,7 @@ func (s *shim) Handle(req events.Request) (events.Response, error) {
 }
 
 // Auth runs the auth func
-func (s *shim) Auth(req events.Request) (bool, string) {
+func (s *shim) Auth(req events.Request) (events.Response, error) {
 	return s.AuthFunc(req)
 }
 
