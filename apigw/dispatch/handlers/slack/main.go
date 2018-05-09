@@ -47,7 +47,7 @@ func (h *Handler) Auth(req events.Request) (events.Response, error) {
 		return events.Response{
 			StatusCode: 403,
 			Body:       "no slack_token provided",
-		}, fmt.Errorf("no slack_token provided")
+		}, nil
 	} else if expectedToken == "skip" {
 		return events.Response{}, nil
 	}
@@ -61,5 +61,5 @@ func (h *Handler) Auth(req events.Request) (events.Response, error) {
 	return events.Response{
 		StatusCode: 403,
 		Body:       "invalid slack_token",
-	}, fmt.Errorf("invalid slack_token")
+	}, nil
 }
