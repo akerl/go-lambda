@@ -22,8 +22,11 @@ type Dispatcher struct {
 func (d *Dispatcher) Handle(req events.Request) (events.Response, error) {
 	for _, h := range d.Receivers {
 		if h.Check(req) {
-			if resp, err := h.Auth(req); err != nil {
+			resp, err := h.Auth(req)
+			if err != nil {
 				return resp, err
+			} else if resp.StatusCode >= 400 {
+				return resp, nil
 			}
 			return h.Handle(req)
 		}
