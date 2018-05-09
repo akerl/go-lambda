@@ -25,7 +25,7 @@ func (d *Dispatcher) Handle(req events.Request) (events.Response, error) {
 			resp, err := h.Auth(req)
 			if err != nil {
 				return resp, err
-			} else if resp.StatusCode >= 400 {
+			} else if resp.StatusCode > 0 {
 				return resp, nil
 			}
 			return h.Handle(req)
