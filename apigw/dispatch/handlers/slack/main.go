@@ -39,20 +39,14 @@ func (h *Handler) Auth(req events.Request) (events.Response, error) {
 	bodyParams, _ := req.BodyAsParams()
 	actualToken := bodyParams["token"]
 
-	params := events.Params{Request: &req}
-	expectedToken := params.Lookup("slack_token")
-
-	if expectedToken == "" {
+	if len(h.SlackTokens) == 0 {
 		return events.Response{
 			StatusCode: 403,
-			Body:       "no slack_token provided",
+			Body:       "no slacktokens provided",
 		}, nil
-	} else if expectedToken == "skip" {
-		return events.Response{}, nil
 	}
-
 	for _, i := range h.SlackTokens {
-		if i == actualToken {
+		if i == "skip" || i == actualToken {
 			return events.Response{}, nil
 		}
 	}
