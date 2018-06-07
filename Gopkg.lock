@@ -46,8 +46,8 @@
     "service/s3",
     "service/sts"
   ]
-  revision = "60a85d13d02126d8d15ea3f21fd57ac3a2774f37"
-  version = "v1.14.0"
+  revision = "47309c012812d9e9c488a54313e5cdfa7479df93"
+  version = "v1.14.1"
 
 [[projects]]
   name = "github.com/go-ini/ini"
