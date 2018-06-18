@@ -1,14 +1,11 @@
 package s3
 
 import (
-	"fmt"
 	"io/ioutil"
-	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"gopkg.in/yaml.v2"
 )
 
 // Client returns an S3 client

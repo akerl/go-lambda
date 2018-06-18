@@ -1,61 +1,65 @@
 package s3
 
 import (
+	"fmt"
 	"os"
 	"time"
 
 	"gopkg.in/yaml.v2"
 )
 
-// S3Config wraps a config from an S4 object
-type S3Config struct {
-	Bucket string
-	Key    string
-	Config interface{}
+// ConfigFile wraps a config from an S4 object
+type ConfigFile struct {
+	Bucket      string
+	Key         string
+	Config      interface{}
+	LastUpdated int64
 }
 
-func (s *S3Config) Load() error {
-	if s.Bucket == "" {
+// Load downloads and parses the S3 config object
+func (c *ConfigFile) Load() error {
+	if c.Bucket == "" {
 		return fmt.Errorf("bucket not provided")
 	}
-	if s.Key == "" {
+	if c.Key == "" {
 		return fmt.Errorf("s3 key not provided")
 	}
-	obj, err := GetObject(s.Bucket, s.Key)
+	obj, err := GetObject(c.Bucket, c.Key)
 	if err != nil {
 		return err
 	}
-	return yaml.Unmarshal(obj, s.Config)
+	return yaml.Unmarshal(obj, c.Config)
 }
 
 // GetConfig loads a config struct from an S3 object
-func GetConfig(bucket, key string, config interface{}) (*S3Config, error) {
-	s := &S3Config{
+func GetConfig(bucket, key string, config interface{}) (*ConfigFile, error) {
+	c := &ConfigFile{
 		Bucket: bucket,
 		Key:    key,
 		Config: config,
 	}
-	err := s.Load()
-	return s, err
+	err := c.Load()
+	return c, err
 }
 
 // GetConfigFromEnv loads a config struct using bucket/object names from the environment
-func GetConfigFromEnv(config interface{}) (*S3Config, error) {
+func GetConfigFromEnv(config interface{}) (*ConfigFile, error) {
 	bucket := os.Getenv("S3_BUCKET")
 	key := os.Getenv("S3_KEY")
 	return GetConfig(bucket, key, config)
 }
 
 // Autoreload enables reloading every $interval seconds
-func (s *S3Config) Autoreload(delay int) {
-	go func(s *S3Config, delay int) {
-		last = time.Now()
+func (c *ConfigFile) Autoreload(delay int) {
+	go func(c *ConfigFile, delay int) {
 		for {
-			// TODO: Check if I need to try to update
-			if err := s.Load(); err != nil {
-				last = time.Now()
+			now := time.Now().Unix()
+			if c.LastUpdated+int64(delay) < now {
+				if err := c.Load(); err != nil {
+					c.LastUpdated = time.Now().Unix()
+				}
 			}
 			time.Sleep(1)
 		}
-	}(s, delay)
+	}(c, delay)
 }
