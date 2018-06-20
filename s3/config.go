@@ -14,6 +14,8 @@ type ConfigFile struct {
 	Key         string
 	Config      interface{}
 	LastUpdated int64
+	OnSuccess   func(*ConfigFile)
+	OnError     func(*ConfigFile, error)
 }
 
 // Load downloads and parses the S3 config object
@@ -56,7 +58,12 @@ func (c *ConfigFile) Autoreload(delay int) {
 			now := time.Now().Unix()
 			if c.LastUpdated+int64(delay) < now {
 				if err := c.Load(); err != nil {
+					if c.OnSuccess != nil {
+						c.OnSuccess(c)
+					}
 					c.LastUpdated = time.Now().Unix()
+				} else if c.OnError != nil {
+					c.OnError(c, err)
 				}
 			}
 			time.Sleep(1)
