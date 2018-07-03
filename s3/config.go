@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"gopkg.in/yaml.v2"
+	"github.com/ghodss/yaml"
 )
 
 // ConfigFile wraps a config from an S4 object
