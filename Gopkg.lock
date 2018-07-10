@@ -46,8 +46,8 @@
     "service/s3",
     "service/sts"
   ]
-  revision = "16cb9f62f8a8b7af4f38725567f5ce762e1d562b"
-  version = "v1.14.21"
+  revision = "66e86be40287fdef6990768b65f713f4bce11deb"
+  version = "v1.14.23"
 
 [[projects]]
   name = "github.com/ghodss/yaml"
