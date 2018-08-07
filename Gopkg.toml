@@ -31,7 +31,7 @@
 
 [[constraint]]
   name = "github.com/aws/aws-sdk-go"
-  version = "1.14.18"
+  version = "1.15.6"
 
 [[constraint]]
   name = "github.com/ghodss/yaml"
@@ -39,7 +39,7 @@
 
 [[constraint]]
   name = "github.com/nlopes/slack"
-  version = "0.2.0"
+  version = "0.3.0"
 
 [prune]
   go-tests = true

@@ -47,8 +47,8 @@
     "service/s3",
     "service/sts"
   ]
-  revision = "f70339bb6af843c8ab1974381b3f4fcaee2b1a41"
-  version = "v1.15.5"
+  revision = "e2b22a3b42bdad95d52bf59f477bdcd57f38191d"
+  version = "v1.15.6"
 
 [[projects]]
   name = "github.com/ghodss/yaml"
@@ -76,8 +76,8 @@
 [[projects]]
   name = "github.com/nlopes/slack"
   packages = ["."]
-  revision = "8ab4d0b364ef1e9af5d102531da20d5ec902b6c4"
-  version = "v0.2.0"
+  revision = "0db1d5eae1116bf7c8ed96c6749acfbf4daaec3e"
+  version = "v0.3.0"
 
 [[projects]]
   name = "gopkg.in/yaml.v2"
@@ -88,6 +88,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "439251e2bd971d9a7a1d61bd3366fe5d45373b683a1dbc5551e1653de0f83259"
+  inputs-digest = "e1ac48610084788ce7c01d43fa9631056e8b696fe37a1a3c1b4f69f3c1182bc9"
   solver-name = "gps-cdcl"
   solver-version = 1
