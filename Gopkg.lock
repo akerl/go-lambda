@@ -9,8 +9,8 @@
     "lambda/messages",
     "lambdacontext"
   ]
-  revision = "4d30d0ff60440c2d0480a15747c96ee71c3c53d4"
-  version = "v1.2.0"
+  revision = "e630af386f8aad6ec9fc899b951cf62d37cfe56f"
+  version = "v1.4.0"
 
 [[projects]]
   name = "github.com/aws/aws-sdk-go"
@@ -47,8 +47,8 @@
     "service/s3",
     "service/sts"
   ]
-  revision = "e2b22a3b42bdad95d52bf59f477bdcd57f38191d"
-  version = "v1.15.6"
+  revision = "859b69a01f8cb52b639bd8c868b116144bddc74a"
+  version = "v1.15.9"
 
 [[projects]]
   name = "github.com/ghodss/yaml"
