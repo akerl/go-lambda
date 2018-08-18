@@ -66,7 +66,7 @@ func (c *ConfigFile) Autoreload(delay int) {
 					c.OnError(c, err)
 				}
 			}
-			time.Sleep(1)
+			time.Sleep(time.Second)
 		}
 	}(c, delay)
 }

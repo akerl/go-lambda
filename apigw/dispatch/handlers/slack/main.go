@@ -17,15 +17,15 @@ type Handler struct {
 // Check validates the Slack body parameter exists
 func (h *Handler) Check(req events.Request) bool {
 	bodyParams, _ := req.BodyAsParams()
-	if bodyParams["trigger_id"] == "" {
-		return false
-	}
-	return true
+	return bodyParams["trigger_id"] != ""
 }
 
 // Handle processes the message
 func (h *Handler) Handle(req events.Request) (events.Response, error) {
 	resp, err := h.Func(req)
+	if err != nil {
+		return events.Fail("failed to process request")
+	}
 
 	jsonMsg, err := json.Marshal(resp)
 	if err != nil {
