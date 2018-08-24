@@ -31,5 +31,5 @@ item do
     end
   end
 
-  extend ProspectusCircleci::Build.new('akerl/go-template')
+  extend ProspectusCircleci::Build.new('akerl/go-lambda')
 end

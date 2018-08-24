@@ -16,8 +16,8 @@ type Handler struct {
 
 // Check validates the Slack body parameter exists
 func (h *Handler) Check(req events.Request) bool {
-	bodyParams, _ := req.BodyAsParams()
-	return bodyParams["trigger_id"] != ""
+	bodyParams, err := req.BodyAsParams()
+	return err == nil && bodyParams["trigger_id"] != ""
 }
 
 // Handle processes the message
@@ -36,7 +36,10 @@ func (h *Handler) Handle(req events.Request) (events.Response, error) {
 
 // Auth checks if the auth token is valid
 func (h *Handler) Auth(req events.Request) (events.Response, error) {
-	bodyParams, _ := req.BodyAsParams()
+	bodyParams, err := req.BodyAsParams()
+	if err != nil {
+		return events.Fail("failed to process params")
+	}
 	actualToken := bodyParams["token"]
 
 	if len(h.SlackTokens) == 0 {
