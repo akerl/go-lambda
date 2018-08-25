@@ -57,7 +57,7 @@ func (c *ConfigFile) Autoreload(delay int) {
 		for {
 			now := time.Now().Unix()
 			if c.LastUpdated+int64(delay) < now {
-				if err := c.Load(); err != nil {
+				if err := c.Load(); err == nil {
 					if c.OnSuccess != nil {
 						c.OnSuccess(c)
 					}
