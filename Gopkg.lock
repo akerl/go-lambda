@@ -15,7 +15,7 @@
   version = "v1.6.0"
 
 [[projects]]
-  digest = "1:f6bac2ce8c1367b13f66e15d43898c5fd4587d6850e08ab9ef13d6844864d23b"
+  digest = "1:d2016179158c4fe8dfe6bbd99a19ef2ea3551b522c4e236064febf8d67ddffa6"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -51,8 +51,8 @@
     "service/sts",
   ]
   pruneopts = "UT"
-  revision = "04abd557eeaab3cfdded45467eea00fc03db9cb9"
-  version = "v1.15.26"
+  revision = "80ad2657c5ff975b642b1febb11c3fcfd747c057"
+  version = "v1.15.28"
 
 [[projects]]
   digest = "1:2cd7915ab26ede7d95b8749e6b1f933f1c6d5398030684e6505940a10f31cfda"
@@ -71,12 +71,12 @@
   version = "v1.38.2"
 
 [[projects]]
-  digest = "1:cee8e8ac80df6373e7daa11baf1f98c1b6f7242c49ccae7e1ec34a971dc408d9"
+  digest = "1:7b5c6e2eeaa9ae5907c391a91c132abfd5c9e8a784a341b5625e750c67e6825d"
   name = "github.com/gorilla/websocket"
   packages = ["."]
   pruneopts = "UT"
-  revision = "3ff3320c2a1756a3691521efc290b4701575147c"
-  version = "v1.3.0"
+  revision = "66b9c49e59c6c48f0ffce28c2d8b8a5678502c6d"
+  version = "v1.4.0"
 
 [[projects]]
   digest = "1:e22af8c7518e1eab6f2eab2b7d7558927f816262586cd6ed9f349c97a6c285c4"
