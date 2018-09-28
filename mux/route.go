@@ -31,3 +31,8 @@ func (r *Route) Handle(req events.Request) (events.Response, error) {
 	}
 	return r.SimpleReceiver.Handle(req)
 }
+
+// NewRoute is a helper to convert a regexp and handlefunc into a Route Receiver
+func NewRoute(path *regexp.Regexp, handler HandleFunc) *Route {
+	return &Route{Path: path, SimpleReceiver: SimpleReceiver{HandleFunc: handler}}
+}

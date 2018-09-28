@@ -29,3 +29,8 @@ func (d *Dispatcher) Handle(req events.Request) (events.Response, error) {
 	}
 	return events.Fail("no handler found")
 }
+
+// NewDispatcher is a helper to build a dispatcher from a list of receivers
+func NewDispatcher(receivers ...Receiver) *Dispatcher {
+	return &Dispatcher{Receivers: receivers}
+}
