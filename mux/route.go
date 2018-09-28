@@ -9,7 +9,7 @@ import (
 // Route is a receiver that works based on a regex path
 type Route struct {
 	Path *regexp.Regexp
-	receiverStruct
+	SimpleReceiver
 }
 
 // Check tests if the path matches for the route
@@ -18,7 +18,7 @@ func (r *Route) Check(req events.Request) bool {
 	if len(match) == 0 {
 		return false
 	}
-	return r.receiverStruct.Check(req)
+	return r.SimpleReceiver.Check(req)
 }
 
 // Handle runs the handle func with path regexp injected
@@ -29,5 +29,5 @@ func (r *Route) Handle(req events.Request) (events.Response, error) {
 			req.PathParameters[name] = match[i]
 		}
 	}
-	return r.receiverStruct.Handle(req)
+	return r.SimpleReceiver.Handle(req)
 }

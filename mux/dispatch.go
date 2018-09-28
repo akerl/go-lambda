@@ -7,7 +7,7 @@ import (
 // Dispatcher is a meta-receiver which sends requests to other receivers
 type Dispatcher struct {
 	Receivers []Receiver
-	receiverStruct
+	SimpleReceiver
 }
 
 // Handle handles an incoming request by checking for a matching receiver
