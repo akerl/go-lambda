@@ -8,12 +8,10 @@ import (
 	"github.com/nlopes/slack"
 )
 
-type slackFunc func(events.Request) (*slack.Msg, error)
-
 // Handler checks for Slack requests and returns Slack messages
 type Handler struct {
-	HandleFunc  slackFunc
-	ErrorFunc   slackFunc
+	HandleFunc  func(events.Request) (*slack.Msg, error)
+	ErrorFunc   func(events.Request, error) (*slack.Msg, error)
 	SlackTokens []string
 }
 
@@ -21,11 +19,6 @@ type Handler struct {
 func (h *Handler) Check(req events.Request) bool {
 	bodyParams, err := req.BodyAsParams()
 	return err == nil && bodyParams["trigger_id"] != ""
-}
-
-// Handle processes the message
-func (h *Handler) Handle(req events.Request) (events.Response, error) {
-	return processRequest(req, h.HandleFunc)
 }
 
 // Auth checks if the auth token is valid
@@ -54,19 +47,30 @@ func (h *Handler) Auth(req events.Request) (events.Response, error) {
 	}, nil
 }
 
-func (h *Handler) Error(req events.Request) (events.Response, error) {
-	return processRequest(req, h.ErrorFunc)
-}
-
-func processRequest(req events.Request, f slackFunc) (events.Response, error) {
-	if f == nil {
+// Handle processes the message
+func (h *Handler) Handle(req events.Request) (events.Response, error) {
+	if h.HandleFunc == nil {
 		return events.Fail("No handle function defined")
 	}
-	resp, err := f(req)
+	resp, err := h.HandleFunc(req)
 	if err != nil {
-		return events.Fail("failed to process request")
+		return events.Response{}, err
 	}
+	return processRequest(resp)
+}
 
+func (h *Handler) Error(req events.Request, err error) (events.Response, error) {
+	if h.ErrorFunc == nil {
+		return events.Fail("No error function defined")
+	}
+	resp, err := h.ErrorFunc(req, err)
+	if err != nil {
+		return events.Fail("Error function failed")
+	}
+	return processRequest(resp)
+}
+
+func processRequest(resp *slack.Msg) (events.Response, error) {
 	jsonMsg, err := json.Marshal(resp)
 	if err != nil {
 		return events.Fail("failed to serialize response")
