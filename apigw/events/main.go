@@ -9,9 +9,6 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
-// Handler defines an API GW request handler
-type Handler func(Request) (Response, error)
-
 // Response aliases the API GW Response type
 type Response events.APIGatewayProxyResponse
 

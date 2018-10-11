@@ -8,9 +8,12 @@ import (
 	"github.com/nlopes/slack"
 )
 
+type slackFunc func(events.Request) (*slack.Msg, error)
+
 // Handler checks for Slack requests and returns Slack messages
 type Handler struct {
-	Func        func(events.Request) (*slack.Msg, error)
+	HandleFunc  slackFunc
+	ErrorFunc   slackFunc
 	SlackTokens []string
 }
 
@@ -22,16 +25,7 @@ func (h *Handler) Check(req events.Request) bool {
 
 // Handle processes the message
 func (h *Handler) Handle(req events.Request) (events.Response, error) {
-	resp, err := h.Func(req)
-	if err != nil {
-		return events.Fail("failed to process request")
-	}
-
-	jsonMsg, err := json.Marshal(resp)
-	if err != nil {
-		return events.Fail("failed to serialize response")
-	}
-	return events.Succeed(string(jsonMsg))
+	return processRequest(req, h.HandleFunc)
 }
 
 // Auth checks if the auth token is valid
@@ -58,4 +52,24 @@ func (h *Handler) Auth(req events.Request) (events.Response, error) {
 		StatusCode: 403,
 		Body:       "invalid slack_token",
 	}, nil
+}
+
+func (h *Handler) Error(req events.Request) (events.Response, error) {
+	return processRequest(req, h.ErrorFunc)
+}
+
+func processRequest(req events.Request, f slackFunc) (events.Response, error) {
+	if f == nil {
+		return events.Fail("No handle function defined")
+	}
+	resp, err := f(req)
+	if err != nil {
+		return events.Fail("failed to process request")
+	}
+
+	jsonMsg, err := json.Marshal(resp)
+	if err != nil {
+		return events.Fail("failed to serialize response")
+	}
+	return events.Succeed(string(jsonMsg))
 }
