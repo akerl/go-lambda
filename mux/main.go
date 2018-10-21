@@ -2,7 +2,6 @@ package mux
 
 import (
 	"github.com/akerl/go-lambda/apigw/events"
-
 	"github.com/aws/aws-lambda-go/lambda"
 )
 

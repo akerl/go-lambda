@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 
 	"github.com/akerl/go-lambda/apigw/events"
-
 	"github.com/nlopes/slack"
 )
 
