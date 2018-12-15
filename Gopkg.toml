@@ -27,11 +27,11 @@
 
 [[constraint]]
   name = "github.com/aws/aws-lambda-go"
-  version = "1.2.0"
+  version = "1.8.0"
 
 [[constraint]]
-  name = "github.com/aws/aws-sdk-go"
-  version = "1.15.6"
+  name = "github.com/aws/aws-sdk-go-v2"
+  version = "0.6.0"
 
 [[constraint]]
   name = "github.com/ghodss/yaml"
@@ -39,7 +39,7 @@
 
 [[constraint]]
   name = "github.com/nlopes/slack"
-  version = "0.3.0"
+  version = "0.4.0"
 
 [prune]
   go-tests = true
