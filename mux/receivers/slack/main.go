@@ -23,29 +23,25 @@ func (h *Handler) Check(req events.Request) bool {
 // Auth checks if the auth token is valid
 func (h *Handler) Auth(req events.Request) (events.Response, error) {
 	if len(h.SigningTokens) == 0 {
-		return events.Response{
-			StatusCode: 403,
-			Body:       "no signing tokens provided",
-		}, nil
+		return events.Reject("no signing tokens provided")
 	}
+
+	byteBody := []byte(req.Body)
 
 	for _, i := range h.SigningTokens {
 		sv, err := slack.NewSecretsVerifier(req.MultiValueHeaders, i)
 		if err != nil {
-			return events.Response{
-				StatusCode: 403,
-				Body:       "failed to create secret verifier",
-			}, nil
+			return events.Reject("failed to create secret verifier")
 		}
-		if sv.Ensure() == nil {
+		if _, err := sv.Write(byteBody); err != nil {
+			return events.Reject("failed to parse body")
+		}
+		if err := sv.Ensure(); err == nil {
 			return events.Response{}, nil
 		}
 	}
 
-	return events.Response{
-		StatusCode: 403,
-		Body:       "invalid signature",
-	}, nil
+	return events.Reject("invalid signature")
 }
 
 // Handle processes the message

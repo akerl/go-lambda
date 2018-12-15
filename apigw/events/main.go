@@ -52,6 +52,11 @@ func Succeed(msg string) (Response, error) {
 	return Respond(200, msg)
 }
 
+// Reject returns a message with an HTTP 403
+func Reject(msg string) (Response, error) {
+	return Respond(403, msg)
+}
+
 // Redirect returns a redirect to a new URL
 func Redirect(url string, code int) (Response, error) {
 	return Response{
