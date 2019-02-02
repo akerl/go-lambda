@@ -56,11 +56,11 @@ func (h *Handler) Handle(req events.Request) (events.Response, error) {
 	return processRequest(resp)
 }
 
-func (h *Handler) Error(req events.Request, err error) (events.Response, error) {
+func (h *Handler) Error(req events.Request, e error) (events.Response, error) {
 	if h.ErrorFunc == nil {
 		return events.Fail("No error function defined")
 	}
-	resp, err := h.ErrorFunc(req, err)
+	resp, err := h.ErrorFunc(req, e)
 	if err != nil {
 		return events.Fail("Error function failed")
 	}

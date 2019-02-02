@@ -48,6 +48,6 @@ func NoAuth(_ events.Request) (events.Response, error) {
 }
 
 // NoError is an empty ErrorFunc
-func NoError(_ events.Request, err error) (events.Response, error) {
+func NoError(_ events.Request, _ error) (events.Response, error) {
 	return events.Fail("Server Error")
 }
