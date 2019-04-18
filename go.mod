@@ -8,6 +8,6 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/gorilla/websocket v1.4.0 // indirect
 	github.com/nlopes/slack v0.5.0
-	golang.org/x/crypto v0.0.0-20190411191339-88737f569e3a
+	golang.org/x/crypto v0.0.0-20190418165655-df01cb2cc480
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
