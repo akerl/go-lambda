@@ -1,6 +1,7 @@
 package s3
 
 import (
+	"context"
 	"io/ioutil"
 
 	"github.com/aws/aws-sdk-go-v2/aws/external"
@@ -8,7 +9,7 @@ import (
 )
 
 // Client returns an S3 client
-func Client() (*s3.S3, error) {
+func Client() (*s3.Client, error) {
 	cfg, err := external.LoadDefaultAWSConfig()
 	if err != nil {
 		return nil, err
@@ -28,7 +29,7 @@ func GetObject(bucket, key string) ([]byte, error) {
 		Key:    &key,
 	}
 	req := client.GetObjectRequest(input)
-	result, err := req.Send()
+	result, err := req.Send(context.Background())
 	if err != nil {
 		return []byte{}, err
 	}
