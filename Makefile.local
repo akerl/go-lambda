@@ -1,3 +1,2 @@
 PACKAGE = go-lambda
-NAMESPACE = github.com/akerl
-OSLIST = linux
+OSARCHLIST = linux/amd64
