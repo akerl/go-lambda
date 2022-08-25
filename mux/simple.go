@@ -4,7 +4,7 @@ import (
 	"github.com/akerl/go-lambda/apigw/events"
 )
 
-//SimpleReceiver defines a basic Receiver composed of 4 functions
+// SimpleReceiver defines a basic Receiver composed of 4 functions
 type SimpleReceiver struct {
 	CheckFunc  CheckFunc
 	AuthFunc   HandleFunc
