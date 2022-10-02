@@ -1,4 +1,4 @@
-package slack
+package token
 
 import (
 	"net/http"

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/akerl/go-lambda/apigw/events"
-	"github.com/nlopes/slack"
+	"github.com/slack-go/slack"
 )
 
 // Handler checks for Slack requests and returns Slack messages
