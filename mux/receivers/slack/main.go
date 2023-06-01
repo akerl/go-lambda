@@ -26,7 +26,12 @@ func (h *Handler) Auth(req events.Request) (events.Response, error) {
 		return events.Reject("no signing tokens provided")
 	}
 
-	byteBody := []byte(req.Body)
+	body, err := req.DecodedBody()
+	if err != nil {
+		return events.Reject("failed to decode body")
+	}
+
+	byteBody := []byte(body)
 
 	for _, i := range h.SigningTokens {
 		sv, err := slack.NewSecretsVerifier(req.MultiValueHeaders, i)

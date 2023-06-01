@@ -2,6 +2,7 @@ package events
 
 import (
 	"bytes"
+	"encoding/base64"
 	"net/http"
 	"net/url"
 	"os"
@@ -15,10 +16,23 @@ type Response events.APIGatewayProxyResponse
 // Request aliases the API GW Request type
 type Request events.APIGatewayProxyRequest
 
+// DecodedBody returns the body as plaintext
+func (r *Request) DecodedBody() (string, error) {
+	if r.IsBase64Encoded {
+		b, err := base64.StdEncoding.DecodeString(r.Body)
+		return string(b), err
+	}
+	return r.Body, nil
+}
+
 // BodyAsParams attempts to parse the request body as URL parameters
 func (r *Request) BodyAsParams() (map[string]string, error) {
 	result := make(map[string]string)
-	vals, err := url.ParseQuery(r.Body)
+	body, err := r.DecodedBody()
+	if err != nil {
+		return result, err
+	}
+	vals, err := url.ParseQuery(body)
 	if err != nil {
 		return result, err
 	}
@@ -31,8 +45,12 @@ func (r *Request) BodyAsParams() (map[string]string, error) {
 // ToHTTP returns the API Gateway request as an HTTP Request object
 func (r *Request) ToHTTP() (*http.Request, error) {
 	url := "https://" + r.Headers["Host"] + r.Path
-	body := bytes.NewBufferString(r.Body)
-	hr, err := http.NewRequest(r.HTTPMethod, url, body)
+	body, err := r.DecodedBody()
+	if err != nil {
+		return &http.Request{}, err
+	}
+	bodyBytes := bytes.NewBufferString(body)
+	hr, err := http.NewRequest(r.HTTPMethod, url, bodyBytes)
 	if err != nil {
 		return hr, err
 	}
