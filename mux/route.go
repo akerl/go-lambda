@@ -1,10 +1,7 @@
 package mux
 
 import (
-	"crypto/subtle"
-	"encoding/base64"
 	"regexp"
-	"strings"
 
 	"github.com/akerl/go-lambda/apigw/events"
 )
@@ -46,41 +43,4 @@ func NewRouteWithAuth(path *regexp.Regexp, handler HandleFunc, auth HandleFunc) 
 		Path:           path,
 		SimpleReceiver: SimpleReceiver{HandleFunc: handler, AuthFunc: auth},
 	}
-}
-
-// NewRouteWithBasicAuth is a helper to create a route protected by HTTP basic auth
-func NewRouteWithBasicAuth(path *regexp.Regexp, handler HandleFunc, users map[string]string) *Route { //revive:disable-line:line-length-limit
-	return NewRouteWithAuth(path, handler, basicAuthFunc(users))
-}
-
-func basicAuthFunc(users map[string]string) HandleFunc {
-	return func(req events.Request) (events.Response, error) {
-		user, pass, ok := parseBasicAuth(req.Headers["Authorization"])
-		if !ok || users[user] == "" || subtle.ConstantTimeCompare([]byte(users[user]), []byte(pass)) != 1 { //revive:disable-line:line-length-limit
-			return events.Response{
-				StatusCode: 401,
-				Body:       "Unauthorized",
-				Headers: map[string]string{
-					"WWW-Authenticate": "Basic realm=\"Please authenticate\"",
-				},
-			}, nil
-		}
-		return events.Response{}, nil
-	}
-}
-
-func parseBasicAuth(auth string) (username, password string, ok bool) {
-	if !strings.HasPrefix(auth, "Basic ") {
-		return "", "", false
-	}
-	c, err := base64.StdEncoding.DecodeString(auth[6:])
-	if err != nil {
-		return "", "", false
-	}
-	cs := string(c)
-	username, password, ok = strings.Cut(cs, ":")
-	if !ok {
-		return "", "", false
-	}
-	return username, password, true
 }
