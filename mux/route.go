@@ -1,6 +1,7 @@
 package mux
 
 import (
+	"crypto/subtle"
 	"regexp"
 
 	"github.com/akerl/go-lambda/apigw/events"
@@ -35,4 +36,33 @@ func (r *Route) Handle(req events.Request) (events.Response, error) {
 // NewRoute is a helper to convert a regexp and handlefunc into a Route Receiver
 func NewRoute(path *regexp.Regexp, handler HandleFunc) *Route {
 	return &Route{Path: path, SimpleReceiver: SimpleReceiver{HandleFunc: handler}}
+}
+
+// NewRouteWithAuth is a helper to conver a regexp, handler, and auth func into a Route Receiver
+func NewRouteWithAuth(path *regexp.Regexp, handler HandleFunc, auth HandleFunc) *Route {
+	return &Route{
+		Path:           path,
+		SimpleReceiver: SimpleReceiver{HandleFunc: handler, AuthFunc: auth},
+	}
+}
+
+// NewRouteWithBasicAuth is a helper to create a route protected by HTTP basic auth
+func NewRouteWithBasicAuth(path *regexp.Regexp, handler HandleFunc, users map[string]string) *Route {
+	return NewRouteWithAuth(path, handler, basicAuthFunc(users))
+}
+
+func basicAuthFunc(users map[string]string) HandleFunc {
+	return func(req events.Request) (events.Response, error) {
+		user, pass, ok := parseUserName(req.Headers["Authorization"])
+		if !ok || c.Users[user] == "" || subtle.ConstantTimeCompare([]byte(c.Users[user]), []byte(pass)) != 1 {
+			return events.Response{
+				StatusCode: 401,
+				Body:       "Unauthorized",
+				Headers: map[string]string{
+					"WWW-Authenticate": "Basic realm=\"Please authenticate\"",
+				},
+			}, nil
+		}
+		return events.Response{}, nil
+	}
 }
